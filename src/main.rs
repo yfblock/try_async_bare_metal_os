@@ -8,8 +8,6 @@
 #![feature(asm_sym)]
 #![allow(unaligned_references)]
 
-
-
 #[macro_use]
 mod console;
 mod panic;
