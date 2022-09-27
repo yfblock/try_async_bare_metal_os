@@ -1,0 +1,4 @@
+sbi-qemu
+kernel-qemu
+target/
+fat32.img
