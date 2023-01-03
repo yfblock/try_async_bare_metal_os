@@ -8,10 +8,19 @@
 #![feature(asm_sym)]
 #![allow(unaligned_references)]
 
+extern crate alloc;
+
 #[macro_use]
 mod console;
 mod panic;
 mod sbi;
+mod fs;
+mod memory;
+mod virtio_impl;
+mod mutex;
+mod test_async;
+mod task;
+mod interrupt;
 
 use core::arch::asm;
 
@@ -46,7 +55,14 @@ pub extern "C" fn rust_main(hart_id: usize, _device_tree_addr: usize) -> ! {
     if hart_id != 0 {
         support_hart_resume(hart_id, 0);
     }
-    
+
+    memory::init();
+    virtio_impl::init();
+    interrupt::init();
+    fs::ls_dir("var");
+
+    test_async::init();
+
     // 调用rust api关机
     panic!("正常关机")
 }
